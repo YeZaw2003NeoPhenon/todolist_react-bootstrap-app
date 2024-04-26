@@ -18,11 +18,10 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
     const handleDeleteConfirmation = () => {
         if( item.completed ){
-            const timeHandler = setTimeout( () => {
+         setTimeout( () => {
                 deleteItems(item.id)
                 setShowConfirmation(false)
             } , 1000 )
-            clearTimeout(timeHandler)
         }
     }
 
