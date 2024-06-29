@@ -1,0 +1,19 @@
+{
+  "todoitems": [
+    {
+      "id": "1",
+      "completed": false,
+      "itemText": "IPhone-13ProMax"
+    },
+    {
+      "id": "2",
+      "completed": false,
+      "itemText": "Harry Porter Book"
+    },
+    {
+      "id": "21",
+      "itemText": "Plenty of Breads for Glucose",
+      "completed": false
+    }
+  ]
+}

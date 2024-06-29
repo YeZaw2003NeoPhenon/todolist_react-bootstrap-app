@@ -1,31 +1,39 @@
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 export const AlertDialog = ({message , variant }) => {
 
-    const[showAlert , setShowAlert ] = useState(false)
+    const[showAlert , setShowAlert] = useState(false)
+    const[isBootstrapLoaded , setIsBootStrapLoaded ] = useState(false)
 
-   useEffect( () => {
+    if(!isBootstrapLoaded){
+        import('bootstrap/dist/css/bootstrap.min.css').then( () => {
+            setIsBootStrapLoaded(true);
+        }).catch( err => {
+            console.log("exploitative to bootstrap");    
+        })
+    }
+
+  useEffect( () => {
     if(message){
         setShowAlert(true)
 
-       const timeHandle =  setTimeout(() => {
+       const timeHandler =  setTimeout(() => {
             setShowAlert(false)
         } , 2000 )
 
-        return () => clearTimeout(timeHandle);
-    }
+        return () => clearTimeout(timeHandler); // clean up function 
+     }
    } , [message])
 
     return(
         <div>
-            { showAlert && (
-             <Alert  onClose={() => setShowAlert(false)}
-                variant={variant}
-             dismissible>
-                {message}
-            </Alert>
+            {showAlert ? (
+                <Alert variant = "success" dismissible >{message}</Alert>
+            ) : (
+                <Alert variant = "success" 
+                
+                dismissible>{message}</Alert>
             )}
         </div>
     )    

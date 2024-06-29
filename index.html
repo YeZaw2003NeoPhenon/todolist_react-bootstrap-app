@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Home Page</title>
+</head>
+<body>
+	<div align="center">
+		<h1>Employee Registeration Form!</h1>
+		<hr>
+		<form th:action="@{/employeeDataAdd}" method="get">
+			<label for="empName">Employee Name: </label>
+			<input type="text" name="empName">
+			<br>
+			<br>
+			<label for="empAge">Employee Age: </label>
+			<input type="number" name="empAge">
+			<br>
+			<br>
+			<label for="empGender">Employee Gender: </label>
+			<select name="empGender">
+				<option value="male">Gentleman</option>
+				<option value="female">Lady</option>
+			</select>
+			<br>
+			<br>
+			<input type="submit" value="REGISTER">
+		</form>
+	</div>
+	<hr>
+	<h3 th:if="${dataAddResult == 1}" style="color: green;">Data Successfully Added!</h3>
+	<h3 th:if="${param.dataDeleteResult != null}" style="color: green;">Data Successfully Deleted!</h3>
+	
+	<!-- Show All Employee Data -->
+
+	<div style = "text-align:center" th:if="${empList != null}">
+		<h1>Employee List</h1>
+		<table style = "border: 2px solid black; border-collapse:collapse;">
+			<tr>
+				<th>Name</th>
+				<th>Age</th>
+				<th>Gender</th>
+			</tr>
+			<tr th:each="emp: ${empList}">
+    			<td th:text="${emp.empName}" />
+    			<td th:text="${emp.empAge}" />
+    			<td th:text="${emp.empGender}" />
+    			<td>
+    				<a th:href="@{ '/delete/' + ${emp.empId} }">Delete</a>
+    			</td>
+    			<td>
+    				<a th:href="@{/update/{empId}(empId=${emp.empId})}">Update</a>
+    			</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

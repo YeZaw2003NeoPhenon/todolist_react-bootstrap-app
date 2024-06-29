@@ -4,7 +4,7 @@ import { Modal  , ModalTitle , ModalBody , ModalHeader , ModalFooter , Button } 
 
 export const ConfirmationDialog = ({showConfirmation , onConfirm , onHide}) => {
     const[isBootstrapLoaded , setIsBootstrapLoaded ] = useState(false)
-
+    
     if( !isBootstrapLoaded ){
         import('bootstrap/dist/css/bootstrap.min.css').then( () => {
             setIsBootstrapLoaded(true)
@@ -12,12 +12,12 @@ export const ConfirmationDialog = ({showConfirmation , onConfirm , onHide}) => {
     }
 
     return(
-        <Modal aria-label = "modal" show = {showConfirmation} onHide={onHide} centered >
-            <ModalHeader className = "fw-bold fs-5">
+        <Modal aria-label = "modal" show = {showConfirmation}  onHide={onHide} centered scrollable>
+            <ModalHeader className = "fw-bold fs-5 ">
             <ModalTitle>Confirmation</ModalTitle>
             </ModalHeader>
             <ModalBody>
-            Are You unambiguously sure you want to delete?
+            Are You abruptly sure you want to delete?
             </ModalBody>
             <ModalFooter>
                 <Button variant="secondary" onClick={onHide} > Cancel </Button>

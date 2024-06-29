@@ -1,64 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { AddForm } from "./AddForm";
 import { SearchForm } from "./SearchForm";
 import { MainContent } from "./MainContent";
 import { AlertDialog } from "./AlertDialog";
+import axios from "axios";
 
 function App() {
 
-    const[items , setItems] = useState([
-        {
-            id : 1 ,
-            completed : false,
-            itemText : "IPhone-XR"
-        },
-        {
-            id : 2 ,
-            completed : false,
-            itemText : "Harry Porter Book"
-        },
-        {
-            id : 3 ,
-            completed : false,
-            itemText : "E-Books"
-        }
-    ]);
+    const[items , setItems] = useState([]);
 
     const[ newItem , setNewItem ] = useState("")
     const[searchItem , setSearchItem ] = useState("")
-
+    const[error , setError ] = useState(null)
     const[alertMessage , setAlertMessage ] = useState("")
     const[alertVariant , setALertVariant] = useState("success")
+
+    const api_url = "http://localhost:5000/todoitems"
+
+    useEffect(() => {
+        fetchTodoItems()
+    },[])
+
+    const fetchTodoItems = async() => {
+        try{
+         const response = await axios.get(api_url)
+        setItems(response.data)
+        }
+        catch(error){
+            setError(`There is tremulous errors fetching Todo Items ${error.message}`)
+        }
+    }
 
     const showAlertMessage = ( message , variant) => {
         setAlertMessage(message)
         setALertVariant(variant)
 
-      const clearTimer =  setTimeout(() => {
+      const timeHandler =  setTimeout(() => {
             setAlertMessage("")
         } , 2000 )
-
-        clearTimeout(clearTimer);
-
+        clearTimeout(timeHandler)
     }
-
-    const completedItem = (id) => {
-      const itemList =  items.map((item) => {
-            if( item.id === id ){
-                return {...item , completed : !item.completed }
-            }
-            else{
-                return item;
-            }
-        })
-        setItems(itemList);
-    }
-
     const handleSubmit = (e) => {
 
-        e.preventDefault();
+         e.preventDefault()
 
         if( !newItem.trim() ){
             return;
@@ -66,41 +52,72 @@ function App() {
 
         addItem(newItem);
         setNewItem("");
-
         showAlertMessage( "Items Added Successfully " , "success")
 
     }
 
-    const addItem = (item) => {
-        const id =  items.length ? items[items.length - 1].id + 1 : 1; 
-        const newItem = {
-            id , // id  : Math.random()
-            completed : false,
-            itemText : item
+    const addItem = async(item) => {
+        try{
+            const itemId = items.length ? items[items.length-1].id + 1 : 1 ;
+
+            const response = await axios.post( api_url , { id : itemId , itemText : item , completed : false })
+            setItems([...items , response.data])
         }
-
-        const listItems = [...items , newItem ]
-        setItems(listItems)
+        catch( error ){
+            setError(`There is sluggish errors adding Todo Items ${error.message}`)
+        }
     }
 
-    const deleteItems = (id) => {
-        
-        const itemsToDelete = items.filter((item) => item.id !== id );
-
-        setTimeout(() => {
-            setItems(itemsToDelete)
-        } , 500)
-
-        showAlertMessage( "Items Deleted Successfully " , "danger")
+    const deleteItems = async(id) => {
+        try{
+             await axios.delete(`${api_url}/${id}`)
+            const itemsToDelete = items.filter((item) => item.id !== id );
+            setTimeout(() => {
+                setItems(itemsToDelete)
+            } , 500)    
+            showAlertMessage( "Items Deleted Successfully " , "danger")
+        }
+        catch(error){
+            setError('Error deleting todo:', error)
+        }
     }
+    
+    const completedItem = async(id) => {
+        try{
+         const item = items.find( item => item.id === id );
+         
+         const response = await axios.put(`${api_url}/${id}` , {
+          ...item ,
+          completed : !item.completed
+         })
+ 
+         const listItems = items.map( item => 
+          item.id === id ? response.data : item
+         )
+ 
+          setItems(listItems);
+        }
+        catch(error){
+         setError(`Error updating Todo Item: ${error.message}`);
+        }
+     }
 
-    const edit = (id , newInputItem ) => {
-        const updatedItem = items.map( (item) => {
-             return item.id === id ? {...item , itemText : newInputItem } : item ; 
-        });
-        setItems(updatedItem)
+    const edit = async(id , newInputItem ) => {
+      try{
+        const item = items.find(item => item.id === id );
+        const response = await axios.put(`${api_url}/${id}` , {
+            ...item , 
+            itemText : newInputItem 
+        })
+      const updatedItem = items.map( (item) => {
+            return item.id === id ? response.data : item;
+        })
         showAlertMessage( "Items Updated Successfully " , "success")
-
+        setItems(updatedItem)
+      }
+      catch(error) {
+        setError(`Error updating Todo Item: ${error.message}`);
+      }
     }
 
     return(
@@ -114,11 +131,13 @@ function App() {
               completedItem = {completedItem} 
               deleteItems = {deleteItems}
               searchItem = {searchItem}
+              error = {error}
               edit = {edit}/>
-
+              
               <AlertDialog message = {alertMessage}
                variant = {alertVariant}/>
-                <Footer length = {items.length}/>
+
+            <Footer length = {items.length}/>
 
             </div>
         </article>

@@ -18,11 +18,10 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
     const handleDeleteConfirmation = () => {
         if( item.completed ){
-            const timeHandler = setTimeout( () => {
+              setTimeout( () => {
                 deleteItems(item.id)
                 setShowConfirmation(false)
             } , 1000 )
-            clearTimeout(timeHandler)
         }
     }
 
@@ -41,9 +40,9 @@ import "bootstrap/dist/css/bootstrap.min.css"
             <input type="checkbox"
              id = {`checkbox-${item.id}`}
               onChange={() => completedItem(item.id)} 
-            checked = {item.completed}
+              checked = {item.completed}
             />
-             <button type = "button" aria-label="trashBtn" className="trashBtn" onClick={() => setShowConfirmation(true)}>
+             <button type = "button" aria-label="trashBtn" className="trashBtn" onClick={() => setShowConfirmation(true)} >
                 <FaTrashAlt className="trash"  aria-label={` Delete ${item.itemText}`} onClick={handleDelete} />
             </button>
 
@@ -52,8 +51,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
              onHide = { () => setShowConfirmation(false) }
              onConfirm = {handleDeleteConfirmation}
             />
-
-            {!isEditing ? (
+            { !isEditing ? (
                <label
                 htmlFor={`checkbox-${item.id}`}
                 onDoubleClick={handleEdit}

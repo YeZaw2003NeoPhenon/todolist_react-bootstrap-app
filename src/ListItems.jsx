@@ -1,22 +1,22 @@
 import { InputItems } from "./InputItems"
 
 import "bootstrap/dist/css/bootstrap.min.css"
+import { Alert } from "bootstrap"
 
+export const ListItems = ({items , completedItem ,deleteItems , searchItem , edit,error }) => {
 
-export const ListItems = ({items , completedItem ,deleteItems , searchItem , edit}) => {
-
-    const rejuvanatedItems = items.filter((item) => {
+     items = items.filter((item) => {
         return item.itemText.toLowerCase().includes(searchItem.toLowerCase());
     })
 
     return(
         
         <div>
-            {rejuvanatedItems.length === 0 ? (
+            {items.length === 0 ? (
                 <p> Your List is Empty!</p>
             ) :
             <ul>
-            {rejuvanatedItems.map((item) =>{
+            {items.map((item) =>{
                return (
                    <InputItems item = {item} 
                    key = {item.id} 
@@ -27,6 +27,7 @@ export const ListItems = ({items , completedItem ,deleteItems , searchItem , edi
             })}
        </ul>
             }
+            {error && <Alert>{error}</Alert>}
         </div>
     )
 
