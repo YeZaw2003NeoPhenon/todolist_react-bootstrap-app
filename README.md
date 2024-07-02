@@ -1,6 +1,6 @@
 # TodoList App
 
-# TodoList App
+# Description
 The TodoList App is a simple and efficient task manager built with React. It offers a clean interface to manage your daily tasks with ease.
 
 **Features**:
