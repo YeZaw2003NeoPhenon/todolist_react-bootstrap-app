@@ -1,7 +1,25 @@
-# Getting Started with Create React App
+# TodoList App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Description**:
+The TodoList App is a simple and efficient task manager built with React. It offers a clean interface to manage your daily tasks with ease.
 
+**Features**:
+- **Create Tasks**: Add new tasks.
+- **Read Tasks**: View your list of tasks.
+- **Update Tasks**: Edit existing tasks.
+- **Delete Tasks**: Remove tasks when completed.
+
+**Technologies Used**:
+- **React**: For building the user interface.
+- **Snappy and Clean UI Management** Well-structured JSON datas and natural UI component manipulations.
+- **Axios**: For fetching data and making HTTP requests.
+- **CSS Modules**: For scoped and maintainable styles.
+
+
+**Contact**:
+- **Email**: winzawyair@gmail.com
+- **GitHub**: [YeZaw2003NeoPhenon](https://github.com/YeZaw2003NeoPhenon)
+- 
 ## Available Scripts
 
 In the project directory, you can run:
