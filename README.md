@@ -19,7 +19,7 @@ The TodoList App is a simple and efficient task manager built with React. It off
 **Contact**:
 - **Email**: winzawyair@gmail.com
 - **GitHub**: [YeZaw2003NeoPhenon](https://github.com/YeZaw2003NeoPhenon)
-- 
+
 ## Available Scripts
 
 In the project directory, you can run:
